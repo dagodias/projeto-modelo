@@ -8,18 +8,21 @@
 
 ## O padrão
 
-| Peça        | O padrão                                                                                          |
-| ----------- | ------------------------------------------------------------------------------------------------- |
-| Linguagem   | TypeScript, nos dois lados                                                                        |
-| A frente    | Nuxt 4 (Vue), Tailwind e os ícones Lucide                                                         |
-| A API       | Fastify, com o Zod validando cada chamada e o Swagger em `/api/docs`                              |
-| O contrato  | `packages/shared`: os schemas Zod que a frente e a API usam; e o cliente da frente, gerado da API |
-| O banco     | PostgreSQL com Prisma, ligado com `/ligar-banco`                                                  |
-| O login     | Better Auth, ligado com `/ligar-login`                                                            |
-| Os testes   | Vitest (as regras e as rotas) e Playwright (a tela, num navegador de verdade)                     |
-| A IA        | O MCP do Nuxt e o `llms.txt` de cada peça: a lista está no CLAUDE.md                              |
-| A qualidade | TypeScript estrito, ESLint, Prettier e o portão (Husky no computador, GitHub Actions no GitHub)   |
-| No ar       | Amazon Lightsail com Ubuntu LTS, nginx, systemd e o cadeado do Let's Encrypt (`docs/publicar.md`) |
+| Peça                     | O padrão                                                                                                    |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| Linguagem                | TypeScript, nos dois lados                                                                                  |
+| A frente                 | Nuxt 4 (Vue), Tailwind e os ícones Lucide                                                                   |
+| A API                    | Fastify, com o Zod validando cada chamada e o Swagger em `/api/docs`                                        |
+| O contrato               | `packages/shared`: os schemas Zod que a frente e a API usam; e o cliente da frente, gerado da API           |
+| O banco                  | PostgreSQL com Prisma, ligado com `/ligar-banco`                                                            |
+| O login                  | Better Auth, ligado com `/ligar-login`                                                                      |
+| Os testes                | Vitest (as regras e as rotas) e Playwright (a tela, num navegador de verdade)                               |
+| A documentação para a IA | O MCP do Nuxt e o `llms.txt` de cada peça: a lista está no CLAUDE.md                                        |
+| A qualidade              | TypeScript estrito, ESLint, Prettier e o portão (Husky no computador, GitHub Actions no GitHub)             |
+| No ar                    | Amazon Lightsail com Ubuntu LTS, nginx, systemd e o cadeado do Let's Encrypt (`docs/publicar.md`)           |
+| O código                 | GitHub, repositório privado (o servidor baixa de lá); o Dependabot pede as atualizações, e o portão confere |
+| A memória                | O CLAUDE.md (o mapa), a pasta docs (o estado e o que falta) e o Swagger em `/api/docs`                      |
+| As IAs do sistema        | Quando o negócio pedir: DeepSeek, OpenAI e Claude, numa fila com reserva (veja abaixo)                      |
 
 ## As pastas
 
@@ -103,6 +106,30 @@ da peça antes de usar o que o projeto ainda não usa; o imposto da documentaç�
   `config/negocio.ts`, que vira a semente; os produtos vão para o banco junto com o catálogo.
 - **O login** (`/ligar-login`): quando nascer a área com senha. Better Auth, com o banco já ligado: a página `/entrar`
   e o `/painel` do dono, de onde o painel cresce.
+- **As IAs do sistema**: quando o negócio quiser a IA trabalhando (ler a foto dos produtos, tirar as dúvidas no site).
+  Sempre pela API, nunca pela frente; a chave de cada uma só no `.env`; uma fila com reserva, o banco de IAs (se a
+  primeira falhar, a próxima responde), com o custo de cada chamada registrado. O que a IA propõe, o dono confere antes
+  de valer, e o texto que chega de fora nunca vira ordem para ela.
+- **Os serviços de fora**: quando o negócio pedir, o e-mail que avisa o dono do pedido novo, o WhatsApp para chamar o
+  cliente, o pagamento por PIX, o CEP e o app de celular. Todos pela mesma API, com a chave no `.env`. O pedido nunca
+  depende deles: ele é guardado primeiro, e a falha do serviço vai para o registro.
+
+## A segurança, por desenho
+
+A proteção vem do jeito que o projeto é montado, não da memória de quem programa:
+
+1. **Uma porta só:** da internet, só se chega ao nginx, com o cadeado; a API e o banco atendem só dentro da máquina.
+2. **A frente não decide nada:** preço, permissão e "aberto agora" saem da API.
+3. **Toda entrada é conferida** pelo Zod, antes de chegar na regra.
+4. **Toda rota tem guard**, até a pública.
+5. **Nenhum SQL montado à mão:** o Prisma monta as consultas.
+6. **Segredo num lugar só:** o `.env` do servidor, nunca no Git, na conversa ou no registro.
+7. **O portão barra antes de entrar:** no commit, no envio e no GitHub.
+8. **Ninguém mexe direto no servidor:** só vai ao ar o que está no GitHub, pelo `pnpm publicar`; deu problema, volta a
+   versão anterior.
+9. **O servidor se cuida:** atualização automática, entrada só por chave (conferida pelo `sshd -T`), o fail2ban e o
+   backup do banco todo dia.
+10. **As bibliotecas são vigiadas:** o Dependabot pede a atualização, e ela passa pelo portão.
 
 ## Fica para depois
 

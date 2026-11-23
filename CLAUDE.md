@@ -5,17 +5,17 @@ nos dois lados. O DOCUMENTACAO-DAGOBERTO.md troca este parágrafo pelo que o pro
 
 ## Onde mora cada coisa
 
-| Assunto                                         | Leia                                                                             |
-| ----------------------------------------------- | -------------------------------------------------------------------------------- |
-| O padrão, as pastas e as regras de código       | docs/arquitetura.md                                                              |
-| As rotas da API                                 | http://localhost:3333/api/docs (o Swagger) e apps/api/src/routes                 |
-| Os dados do negócio (até o banco entrar)        | apps/api/src/config/negocio.ts                                                   |
-| A cara do site: logo, cores, fonte, menu, peças | docs/visual.md (as peças juntas em http://localhost:3000/guia-de-estilo)         |
-| O contrato entre a frente e a API               | packages/shared/src/index.ts (os schemas Zod)                                    |
-| O contrato gerado da API (nunca se edita à mão) | apps/api/openapi.json e apps/web/app/types/api.d.ts, feitos pelo `pnpm contrato` |
-| Os testes de tela (o navegador abre o site)     | e2e/                                                                             |
-| Publicar no servidor                            | docs/publicar.md                                                                 |
-| O que falta                                     | docs/pendente.md                                                                 |
+| Assunto                                                                                                            | Leia                                                                             |
+| ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| O padrão, as pastas, as regras, a segurança e o que se liga depois (o banco, o login, as IAs, os serviços de fora) | docs/arquitetura.md                                                              |
+| As rotas da API                                                                                                    | http://localhost:3333/api/docs (o Swagger) e apps/api/src/routes                 |
+| Os dados do negócio (até o banco entrar)                                                                           | apps/api/src/config/negocio.ts                                                   |
+| A cara do site: logo, cores, fonte, menu, peças                                                                    | docs/visual.md (as peças juntas em http://localhost:3000/guia-de-estilo)         |
+| O contrato entre a frente e a API                                                                                  | packages/shared/src/index.ts (os schemas Zod)                                    |
+| O contrato gerado da API (nunca se edita à mão)                                                                    | apps/api/openapi.json e apps/web/app/types/api.d.ts, feitos pelo `pnpm contrato` |
+| Os testes de tela (o navegador abre o site)                                                                        | e2e/                                                                             |
+| Publicar no servidor                                                                                               | docs/publicar.md                                                                 |
+| O que falta                                                                                                        | docs/pendente.md                                                                 |
 
 ## Como rodar
 
