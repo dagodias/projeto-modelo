@@ -99,9 +99,10 @@ da peça antes de usar o que o projeto ainda não usa; o imposto da documentaç�
 
 - **O banco** (`/ligar-banco`): quando o projeto começar a guardar dados. PostgreSQL com Prisma 7. Tudo o que o
   negócio precisa guardar mora nele: os pedidos dos clientes (com o número e o andamento), o catálogo e o cadastro;
-  nunca na memória da API nem no navegador. Os dados do `config/negocio.ts` passam para ele quando o painel do dono
-  existir.
-- **O login** (`/ligar-login`): quando nascer a área com senha (o painel do dono). Better Auth, com o banco já ligado.
+  nunca na memória da API nem no navegador. O primeiro modelo é o `Negocio`, com o que hoje está no
+  `config/negocio.ts`, que vira a semente; os produtos vão para o banco junto com o catálogo.
+- **O login** (`/ligar-login`): quando nascer a área com senha. Better Auth, com o banco já ligado: a página `/entrar`
+  e o `/painel` do dono, de onde o painel cresce.
 
 ## Fica para depois
 

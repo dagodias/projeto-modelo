@@ -1,6 +1,7 @@
 /**
  * Os dados do negócio, num lugar só. Troque pelos do seu.
- * Quando o projeto ganhar o painel do dono, eles vão para o banco (o comando /ligar-banco).
+ * Com o banco ligado (o comando /ligar-banco), o negócio passa a morar nele e este arquivo vira a semente;
+ * os produtos ficam aqui até o catálogo ir para o banco.
  */
 import type { Negocio } from '@projeto/shared'
 

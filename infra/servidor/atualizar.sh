@@ -15,6 +15,10 @@ echo "Versão: $ANTES -> $DEPOIS"
 sudo -u "$PROJETO" bash -lc "cd '$APP' && pnpm install --frozen-lockfile && pnpm build"
 if [ -d apps/api/prisma ]; then
   sudo -u "$PROJETO" bash -lc "cd '$APP/apps/api' && pnpm exec prisma migrate deploy"
+  # A semente (o /ligar-banco cria): grava o negócio só com a tabela vazia, então rodar a cada publicação é seguro.
+  if grep -q '"db:semente"' package.json; then
+    sudo -u "$PROJETO" bash -lc "cd '$APP' && pnpm db:semente"
+  fi
 fi
 
 systemctl restart "$PROJETO-api" "$PROJETO-web"

@@ -27,7 +27,7 @@ pnpm publicar
 ```
 
 Ele confere que não falta commit nem push, entra no servidor, baixa o que está no GitHub, instala, faz o build, roda
-as mudanças do banco (quando ligado), religa os dois serviços e confere o endereço público.
+as mudanças do banco e a semente (quando ligado), religa os dois serviços e confere o endereço público.
 
 ## Voltar atrás
 
