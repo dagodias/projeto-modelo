@@ -10,10 +10,10 @@ test('mostra o negócio que vem da API, com o link do WhatsApp', async ({ page, 
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(negocio.nome)
   await expect(page.getByText(negocio.abertoAgora ? 'Aberto agora' : 'Fechado agora')).toBeVisible()
-  await expect(page.getByRole('link', { name: 'Falar pelo WhatsApp' })).toHaveAttribute(
-    'href',
-    new RegExp(`^https://wa\\.me/${negocio.whatsapp}\\?text=`),
-  )
+  // O botão do WhatsApp aparece no topo, na página e no fim dela: confere o primeiro da página.
+  await expect(
+    page.getByRole('main').getByRole('link', { name: 'Falar pelo WhatsApp' }).first(),
+  ).toHaveAttribute('href', new RegExp(`^https://wa\\.me/${negocio.whatsapp}\\?text=`))
 })
 
 test('cabe na tela, sem rolar para o lado', async ({ page }) => {

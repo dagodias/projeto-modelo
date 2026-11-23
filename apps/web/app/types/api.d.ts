@@ -85,6 +85,11 @@ export interface paths {
                                 foto: string | null;
                                 disponivel: boolean;
                             }[];
+                            redes: {
+                                nome: string;
+                                /** Format: uri */
+                                endereco: string;
+                            }[];
                             abertoAgora: boolean;
                         };
                     };

@@ -15,6 +15,8 @@ export default defineConfig(
       '**/test-results/**',
       // gerado pelo pnpm contrato: nunca se edita à mão
       'apps/web/app/types/api.d.ts',
+      // o modelo de estilo baixado (docs/visual.md): é referência, não código do projeto
+      'docs/estilo/**',
     ],
   },
   tseslint.configs.recommended,

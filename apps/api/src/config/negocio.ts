@@ -22,10 +22,36 @@ export const negocio: Negocio = {
     {
       id: 'exemplo-1',
       nome: 'Produto de exemplo',
-      descricao: 'Troque pelos seus produtos.',
+      descricao: 'Troque pelos seus produtos, cada um com uma descrição curta.',
       precoCentavos: 2000,
       foto: null,
       disponivel: true,
     },
+    {
+      id: 'exemplo-2',
+      nome: 'Outro produto',
+      descricao: 'O preço é sempre em centavos, número inteiro: 3550 vira R$ 35,50.',
+      precoCentavos: 3550,
+      foto: null,
+      disponivel: true,
+    },
+    {
+      id: 'exemplo-3',
+      nome: 'Serviço de exemplo',
+      descricao: 'Também serve para serviço: um corte, uma aula, uma consulta.',
+      precoCentavos: 5000,
+      foto: null,
+      disponivel: true,
+    },
+    {
+      id: 'exemplo-4',
+      nome: 'Produto em falta',
+      descricao: 'Com disponivel: false, ele some do site sem ser apagado.',
+      precoCentavos: 1500,
+      foto: null,
+      disponivel: false,
+    },
   ],
+  // As redes sociais, na ordem em que aparecem no rodapé. Troque pelo endereço do seu perfil, ou apague.
+  redes: [{ nome: 'Instagram', endereco: 'https://www.instagram.com/' }],
 }

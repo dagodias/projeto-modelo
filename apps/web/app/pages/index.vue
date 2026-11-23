@@ -1,59 +1,182 @@
 <script setup lang="ts">
+/**
+ * A página inicial de exemplo: o topo com os dados que vêm da API e seções marcadas para trocar.
+ * O PROMPT-PAGINA-PRINCIPAL do curso transforma a página antiga do negócio (docs/original) nesta página.
+ */
 import { formatarPreco } from '@projeto/shared'
-import { MessageCircle } from '@lucide/vue'
+import { ArrowRight, Bike, ImageIcon, MessageCircle, ShoppingBag } from '@lucide/vue'
 
-const { $api } = useNuxtApp()
-const { data: negocio, error } = await useAsyncData('negocio', async () => {
-  // O caminho e o formato da resposta vêm do contrato: o editor completa e o typecheck confere.
-  const { data } = await $api.GET('/api/negocio')
-  if (!data) throw createError({ statusCode: 502, statusMessage: 'A API não respondeu' })
-  return data
-})
+const { data: negocio, error } = await useNegocio()
 
 useSeoMeta({
-  title: () => negocio.value?.nome ?? 'Carregando',
-  description: () => negocio.value?.frase ?? '',
+  title: () => negocio.value?.nome ?? 'Início',
+  ogTitle: () => negocio.value?.nome,
+  description: () => negocio.value?.frase,
+  ogDescription: () => negocio.value?.frase,
 })
+
+const linkConversa = computed(() =>
+  negocio.value ? linkWhatsapp(negocio.value.whatsapp, mensagemDoSite(negocio.value.nome)) : '',
+)
+
+// Exemplo: troque pelos passos do seu negócio, ou apague a seção.
+const passos = [
+  {
+    icone: ShoppingBag,
+    titulo: 'Escolha',
+    texto: 'Veja os produtos e os preços com calma, no celular ou no computador.',
+  },
+  {
+    icone: MessageCircle,
+    titulo: 'Peça pelo WhatsApp',
+    texto: 'A mensagem sai pronta: é só conferir e enviar.',
+  },
+  {
+    icone: Bike,
+    titulo: 'Receba ou retire',
+    texto: 'Combine a entrega ou passe aqui para buscar.',
+  },
+]
 </script>
 
 <template>
-  <div class="mx-auto max-w-3xl px-4 py-12">
-    <p
-      v-if="error"
-      class="rounded-xl bg-red-100 p-4 text-red-900 dark:bg-red-950 dark:text-red-100"
-    >
-      A API não respondeu. Confira se ela está ligada (pnpm dev).
-    </p>
+  <div>
+    <BaseSecao v-if="error">
+      <BaseAviso tipo="erro" titulo="A API não respondeu">
+        Confira se ela está ligada (pnpm dev) e recarregue a página.
+      </BaseAviso>
+    </BaseSecao>
 
     <template v-else-if="negocio">
-      <header class="space-y-4">
-        <h1 class="text-4xl font-bold tracking-tight">{{ negocio.nome }}</h1>
-        <p class="text-lg text-stone-600 dark:text-stone-300">{{ negocio.frase }}</p>
-        <p
-          class="text-sm font-semibold"
-          :class="negocio.abertoAgora ? 'text-emerald-700 dark:text-emerald-400' : 'text-stone-500'"
+      <section class="relative isolate overflow-hidden">
+        <div
+          aria-hidden="true"
+          class="absolute inset-x-0 -top-48 -z-10 h-[36rem] bg-[radial-gradient(ellipse_at_top,var(--color-marca-100),transparent_65%)] dark:bg-[radial-gradient(ellipse_at_top,color-mix(in_oklab,var(--color-marca-900)_45%,transparent),transparent_65%)]"
+        />
+        <div
+          class="mx-auto grid max-w-6xl items-center gap-10 px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-20 lg:grid-cols-2 lg:gap-16 lg:pt-24 lg:pb-28"
         >
-          {{ negocio.abertoAgora ? 'Aberto agora' : 'Fechado agora' }}
-        </p>
-        <a
-          :href="linkWhatsapp(negocio.whatsapp, `Olá! Vim pelo site de ${negocio.nome}.`)"
-          class="inline-flex items-center gap-2 rounded-xl bg-emerald-700 px-5 py-3 font-semibold text-white hover:bg-emerald-800"
-        >
-          <MessageCircle class="size-5" aria-hidden="true" />
-          Falar pelo WhatsApp
-        </a>
-      </header>
+          <div>
+            <BaseSelo :tipo="negocio.abertoAgora ? 'sucesso' : 'neutro'" ponto>
+              {{ negocio.abertoAgora ? 'Aberto agora' : 'Fechado agora' }}
+            </BaseSelo>
+            <h1
+              class="mt-5 text-4xl font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl"
+            >
+              {{ negocio.nome }}
+            </h1>
+            <p
+              class="mt-5 max-w-xl text-lg text-pretty text-stone-600 sm:text-xl dark:text-stone-400"
+            >
+              {{ negocio.frase }}
+            </p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <BaseBotao :para="linkConversa" tamanho="grande">
+                <MessageCircle class="size-5" aria-hidden="true" />
+                Falar pelo WhatsApp
+              </BaseBotao>
+              <BaseBotao para="#produtos" variante="secundario" tamanho="grande">
+                Ver os produtos
+                <ArrowRight class="size-5" aria-hidden="true" />
+              </BaseBotao>
+            </div>
+          </div>
+          <img
+            src="/exemplo/foto.svg"
+            alt="Exemplo: troque pela foto do seu negócio"
+            width="1200"
+            height="900"
+            class="aspect-[4/3] w-full rounded-3xl border border-stone-200 object-cover shadow-sm dark:border-stone-800"
+          />
+        </div>
+      </section>
 
-      <section class="mt-10 grid gap-4 sm:grid-cols-2" aria-label="Produtos">
-        <article
-          v-for="produto in negocio.produtos"
-          :key="produto.id"
-          class="rounded-2xl border border-stone-200 bg-white p-5 dark:border-stone-800 dark:bg-stone-900"
+      <BaseSecao
+        id="produtos"
+        titulo="Os produtos"
+        subtitulo="Escolha o seu e peça pelo WhatsApp: a mensagem já sai escrita."
+        fundo="suave"
+        exemplo
+      >
+        <ul v-if="negocio.produtos.length" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <li v-for="produto in negocio.produtos" :key="produto.id">
+            <BaseCartao tag="article" :respiro="false" class="flex h-full flex-col overflow-hidden">
+              <img
+                v-if="produto.foto"
+                :src="produto.foto"
+                :alt="produto.nome"
+                width="600"
+                height="400"
+                loading="lazy"
+                class="aspect-[3/2] w-full object-cover"
+              />
+              <div
+                v-else
+                class="grid aspect-[3/2] place-items-center bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500"
+              >
+                <ImageIcon class="size-8" aria-hidden="true" />
+              </div>
+              <div class="flex flex-1 flex-col p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <h3 class="font-semibold">{{ produto.nome }}</h3>
+                  <p class="shrink-0 font-semibold text-marca-700 dark:text-marca-400">
+                    {{ formatarPreco(produto.precoCentavos) }}
+                  </p>
+                </div>
+                <p class="mt-1.5 text-sm text-stone-600 dark:text-stone-400">
+                  {{ produto.descricao }}
+                </p>
+              </div>
+            </BaseCartao>
+          </li>
+        </ul>
+        <BaseVazio
+          v-else
+          titulo="Nenhum produto ainda"
+          texto="Os produtos aparecem aqui assim que entrarem no apps/api/src/config/negocio.ts."
+        />
+      </BaseSecao>
+
+      <BaseSecao
+        titulo="Como funciona"
+        subtitulo="Três passos, do jeito que o seu cliente já usa."
+        exemplo
+      >
+        <ol class="grid gap-5 sm:grid-cols-3">
+          <li v-for="(passo, i) in passos" :key="passo.titulo">
+            <BaseCartao class="h-full">
+              <div class="flex items-center gap-3">
+                <span
+                  class="grid size-10 place-items-center rounded-full bg-marca-50 text-marca-700 dark:bg-marca-950 dark:text-marca-300"
+                >
+                  <component :is="passo.icone" class="size-5" aria-hidden="true" />
+                </span>
+                <span class="text-sm font-semibold text-stone-500 dark:text-stone-400"
+                  >Passo {{ i + 1 }}</span
+                >
+              </div>
+              <h3 class="mt-4 text-lg font-semibold">{{ passo.titulo }}</h3>
+              <p class="mt-1.5 text-stone-600 dark:text-stone-400">{{ passo.texto }}</p>
+            </BaseCartao>
+          </li>
+        </ol>
+      </BaseSecao>
+
+      <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6 sm:pb-20">
+        <div
+          class="flex flex-col items-start gap-6 rounded-3xl bg-marca-700 px-6 py-10 text-white sm:flex-row sm:items-center sm:justify-between sm:px-10 dark:bg-marca-900"
         >
-          <h2 class="font-semibold">{{ produto.nome }}</h2>
-          <p class="mt-1 text-sm text-stone-600 dark:text-stone-300">{{ produto.descricao }}</p>
-          <p class="mt-3 text-lg font-bold">{{ formatarPreco(produto.precoCentavos) }}</p>
-        </article>
+          <div>
+            <h2 class="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
+              Ficou com alguma dúvida?
+            </h2>
+            <p class="mt-2 text-marca-50">Chame no WhatsApp: a resposta é rápida.</p>
+          </div>
+          <BaseBotao :para="linkConversa" variante="secundario" tamanho="grande" class="shrink-0">
+            <MessageCircle class="size-5" aria-hidden="true" />
+            Falar pelo WhatsApp
+          </BaseBotao>
+        </div>
       </section>
     </template>
   </div>

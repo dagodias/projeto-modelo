@@ -140,6 +140,27 @@
                         "additionalProperties": false
                       }
                     },
+                    "redes": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "nome": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "endereco": {
+                            "type": "string",
+                            "format": "uri"
+                          }
+                        },
+                        "required": [
+                          "nome",
+                          "endereco"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
                     "abertoAgora": {
                       "type": "boolean"
                     }
@@ -151,6 +172,7 @@
                     "endereco",
                     "horarios",
                     "produtos",
+                    "redes",
                     "abertoAgora"
                   ],
                   "additionalProperties": false

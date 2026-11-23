@@ -10,6 +10,9 @@ blob-report/
 *.log
 .DS_Store
 
+# O modelo de estilo baixado (docs/visual.md): a licença e o peso dele não vão para o Git
+docs/estilo/
+
 # Senhas e chaves: só no computador e no servidor, nunca no Git
 .env
 .env.*

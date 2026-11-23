@@ -1,9 +1,63 @@
+/*
+ * A cara do site: a fonte, a cor da marca e o arredondado, num lugar só.
+ * Mudou aqui, o site inteiro acompanha. As peças que usam estes nomes moram em app/components/base
+ * e aparecem todas juntas na página /guia-de-estilo.
+ */
 @import 'tailwindcss';
+@import '@fontsource-variable/inter';
 
-:root {
-  color-scheme: light dark;
+@theme {
+  /* A fonte: a Inter, servida pelo próprio site (sem Google Fonts e sem rastreador). */
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  /*
+   * A cor da marca. Para trocar, mude "emerald" nas 11 linhas por outra cor do Tailwind:
+   * red, orange, amber, yellow, lime, green, teal, cyan, sky, blue, indigo, violet, purple, pink ou rose.
+   * Veja todas em https://tailwindcss.com/docs/colors
+   */
+  --color-marca-50: var(--color-emerald-50);
+  --color-marca-100: var(--color-emerald-100);
+  --color-marca-200: var(--color-emerald-200);
+  --color-marca-300: var(--color-emerald-300);
+  --color-marca-400: var(--color-emerald-400);
+  --color-marca-500: var(--color-emerald-500);
+  --color-marca-600: var(--color-emerald-600);
+  --color-marca-700: var(--color-emerald-700);
+  --color-marca-800: var(--color-emerald-800);
+  --color-marca-900: var(--color-emerald-900);
+  --color-marca-950: var(--color-emerald-950);
+
+  /* O arredondado. Mais quadrado: 0.25rem. Botão em formato de pílula: 9999px no --radius-botao. */
+  --radius-botao: 0.75rem;
+  --radius-cartao: 1rem;
 }
 
-body {
-  @apply bg-stone-50 text-stone-900 antialiased dark:bg-stone-950 dark:text-stone-100;
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-white text-stone-900 antialiased dark:bg-stone-950 dark:text-stone-100;
+  }
+
+  /* O foco do teclado sempre visível, na cor da marca. */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-marca-600 dark:outline-marca-400;
+  }
+
+  ::selection {
+    @apply bg-marca-200 text-marca-950;
+  }
+}
+
+/* A rolagem suave só para quem não pediu menos movimento no sistema. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }

@@ -25,10 +25,17 @@
 
 ```
 apps/web/app/pages/          uma página por arquivo; o nome do arquivo é o endereço
-apps/web/app/components/     os pedaços da tela, por assunto
+apps/web/app/layouts/        a casca de todas as páginas: o topo, a página e o rodapé
+apps/web/app/components/     os pedaços da tela: base/ (as peças: botão, cartão, seção...) e site/ (topo,
+                             rodapé, logo); o jeito de usar está no docs/visual.md
+apps/web/app/composables/    o useNegocio: os dados do negócio, um pedido por página
 apps/web/app/plugins/api.ts  o $api: o único jeito de a frente chamar a API
 apps/web/app/types/api.d.ts  o contrato gerado da API (pnpm contrato; nunca à mão)
-apps/web/app/utils/          funções da tela (o link do WhatsApp)
+apps/web/app/utils/          funções da tela (o link do WhatsApp, o do mapa, o horário resumido)
+apps/web/app/app.config.ts   o menu e o endereço do site
+apps/web/app/assets/css/     a cara do site: a fonte, a cor da marca e o arredondado (o @theme do Tailwind)
+apps/web/app/error.vue       a página de erro (a que não existe e a que falhou)
+apps/web/public/             a logo, os ícones e a imagem da prévia do link
 apps/api/src/routes/         um arquivo de rotas por assunto
 apps/api/src/services/       as regras do negócio
 apps/api/src/lib/guard.ts    quem pode chamar cada rota
@@ -46,7 +53,7 @@ Arquivo novo copia o jeito de um irmão recente do mesmo tipo. Nunca inventa est
 
 ```
 O cliente abre a página
-  → o Nuxt monta a página no servidor, que pede os dados com $api.GET('/api/negocio')
+  → o Nuxt monta a página no servidor, que pede os dados com $api.GET('/api/negocio') (pelo useNegocio)
   → no servidor, o $api fala direto com a API; no navegador, chama /api, que o Nuxt
     (no computador) ou o nginx (no servidor) repassa
   → Fastify: o guard (quem pode) → o Zod (os dados vieram certos?) → a rota chama o service
@@ -71,6 +78,7 @@ e a API discordam: conserte a causa, nunca o tipo.
 
 | Camada     | Pode                                                                          | Não pode                                        |
 | ---------- | ----------------------------------------------------------------------------- | ----------------------------------------------- |
+| Layout     | A casca: pede os dados do negócio (useNegocio) e passa ao topo e ao rodapé    | Regra de negócio, guardar segredo               |
 | Página     | Mostrar, chamar a API pelo `$api`, usar componentes                           | Regra de negócio, guardar segredo               |
 | Componente | Um pedaço da tela; recebe dados pelas props                                   | Chamar a API direto, decidir preço ou permissão |
 | Rota (API) | Receber, validar com Zod, passar pelo guard, chamar o service, responder JSON | HTML, regra de negócio grande                   |
@@ -82,7 +90,8 @@ e a API discordam: conserte a causa, nunca o tipo.
 HTML; senha, token ou chave na resposta, no Git ou na conversa; `any` sem motivo escrito; o preço decidido no navegador.
 
 **Sempre:** o `$api` para chamar a API; o guard em toda rota (até na pública); schema Zod na entrada e na resposta;
-o `pnpm contrato` depois de mudar uma rota; dinheiro em centavos, número inteiro; a hora de Brasília para mostrar; o
+o `pnpm contrato` depois de mudar uma rota; as peças de `components/base` na tela (`docs/visual.md`); dinheiro em
+centavos, número inteiro; a hora de Brasília para mostrar; o
 teste junto com a funcionalidade (e o teste de tela, em `e2e/`, quando ela aparece na tela); a documentação oficial
 da peça antes de usar o que o projeto ainda não usa; o imposto da documentação no fim de cada trabalho.
 

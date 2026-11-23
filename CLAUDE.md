@@ -10,6 +10,7 @@ nos dois lados. O DOCUMENTACAO-DAGOBERTO.md troca este parágrafo pelo que o pro
 | O padrão, as pastas e as regras de código       | docs/arquitetura.md                                                              |
 | As rotas da API                                 | http://localhost:3333/api/docs (o Swagger) e apps/api/src/routes                 |
 | Os dados do negócio (até o banco entrar)        | apps/api/src/config/negocio.ts                                                   |
+| A cara do site: logo, cores, fonte, menu, peças | docs/visual.md (as peças juntas em http://localhost:3000/guia-de-estilo)         |
 | O contrato entre a frente e a API               | packages/shared/src/index.ts (os schemas Zod)                                    |
 | O contrato gerado da API (nunca se edita à mão) | apps/api/openapi.json e apps/web/app/types/api.d.ts, feitos pelo `pnpm contrato` |
 | Os testes de tela (o navegador abre o site)     | e2e/                                                                             |
@@ -58,7 +59,7 @@ O `llms.txt` é o índice que o próprio site escreve para a IA, com o endereço
 
 ## Os comandos do projeto
 
-`/nova-funcionalidade` · `/imposto` · `/revisar` · `/ligar-banco` · `/ligar-login` · `/publicar`
+`/nova-funcionalidade` · `/imposto` · `/revisar` · `/ligar-banco` · `/ligar-login` · `/publicar` · `/trocar-estilo`
 
 ## Como começar qualquer pedido
 

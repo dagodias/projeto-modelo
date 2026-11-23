@@ -21,6 +21,12 @@ export const ProdutoSchema = z.object({
   disponivel: z.boolean(),
 })
 
+/** Uma rede social do negócio: o nome que aparece no site e o endereço completo, só http ou https. */
+export const RedeSchema = z.object({
+  nome: z.string().min(1),
+  endereco: z.httpUrl(),
+})
+
 export const NegocioSchema = z.object({
   nome: z.string().min(1),
   frase: z.string(),
@@ -29,6 +35,7 @@ export const NegocioSchema = z.object({
   endereco: z.string(),
   horarios: z.array(HorarioSchema),
   produtos: z.array(ProdutoSchema),
+  redes: z.array(RedeSchema),
 })
 
 /** O que a API mostra para quem visita: o negócio e se ele está aberto agora. */
@@ -38,6 +45,7 @@ export const NegocioPublicoSchema = NegocioSchema.extend({
 
 export type Horario = z.infer<typeof HorarioSchema>
 export type Produto = z.infer<typeof ProdutoSchema>
+export type Rede = z.infer<typeof RedeSchema>
 export type Negocio = z.infer<typeof NegocioSchema>
 export type NegocioPublico = z.infer<typeof NegocioPublicoSchema>
 

@@ -6,6 +6,9 @@ coverage
 playwright-report
 test-results
 
+# o modelo de estilo baixado (fora do Git)
+docs/estilo
+
 # gerados pelo pnpm contrato
 apps/api/openapi.json
 apps/web/app/types/api.d.ts

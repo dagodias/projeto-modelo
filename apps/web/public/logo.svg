@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="116" height="40" viewBox="0 0 116 40" role="img" aria-label="Sua logo">
+  <!-- O lugar da sua logo. Troque este arquivo pela sua logo, com o mesmo nome (logo.svg). -->
+  <style>
+    .borda { fill: none; stroke: #a8a29e; stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .fundo { fill: #f5f5f4; }
+    .desenho { fill: none; stroke: #57534e; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .texto { fill: #292524; font: 600 15px ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      .borda { stroke: #78716c; }
+      .fundo { fill: #292524; }
+      .desenho { stroke: #d6d3d1; }
+      .texto { fill: #f5f5f4; }
+    }
+  </style>
+  <rect class="borda" x="0.75" y="0.75" width="114.5" height="38.5" rx="10"/>
+  <rect class="fundo" x="7" y="7" width="26" height="26" rx="7"/>
+  <rect class="desenho" x="12.5" y="13" width="15" height="14" rx="2.5"/>
+  <circle class="desenho" cx="17" cy="17.4" r="1.3"/>
+  <path class="desenho" d="M13.2 25.4l4.1-3.6 2.6 2.2 3.3-3.3 3.6 3.4"/>
+  <text class="texto" x="41" y="25.3">Sua logo</text>
+</svg>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatarPreco, ProdutoSchema } from '../src/index.js'
+import { formatarPreco, ProdutoSchema, RedeSchema } from '../src/index.js'
 
 describe('o contrato', () => {
   it('mostra centavos como reais', () => {
@@ -17,5 +17,14 @@ describe('o contrato', () => {
       disponivel: true,
     }
     expect(ProdutoSchema.safeParse(produto).success).toBe(false)
+  })
+
+  it('a rede social só aceita endereço http ou https', () => {
+    expect(
+      RedeSchema.safeParse({ nome: 'Instagram', endereco: 'https://www.instagram.com/' }).success,
+    ).toBe(true)
+    expect(RedeSchema.safeParse({ nome: 'Golpe', endereco: 'javascript:alert(1)' }).success).toBe(
+      false,
+    )
   })
 })
