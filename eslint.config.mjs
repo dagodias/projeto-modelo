@@ -34,7 +34,7 @@ export default defineConfig(
   },
   {
     rules: {
-      // páginas do Nuxt se chamam index.vue, cardapio.vue
+      // páginas do Nuxt se chamam index.vue, catalogo.vue
       'vue/multi-word-component-names': 'off',
     },
   },

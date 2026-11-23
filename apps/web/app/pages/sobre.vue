@@ -19,7 +19,7 @@ const valores = [
   {
     icone: HeartHandshake,
     titulo: 'Atendimento',
-    texto: 'Quem chama no WhatsApp fala com gente, e rápido.',
+    texto: 'Do outro lado tem gente, que responde sem demora.',
   },
   {
     icone: MapPin,
@@ -50,7 +50,7 @@ const valores = [
             ligação com o bairro.
           </p>
           <p>
-            Termine com o convite: o endereço, o horário e o WhatsApp estão na página de contato.
+            Termine com o convite: o telefone, o endereço e o horário estão na página de contato.
           </p>
           <BaseBotao para="/contato" variante="secundario">Ver o contato</BaseBotao>
         </div>

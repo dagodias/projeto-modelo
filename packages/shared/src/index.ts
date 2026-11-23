@@ -30,8 +30,12 @@ export const RedeSchema = z.object({
 export const NegocioSchema = z.object({
   nome: z.string().min(1),
   frase: z.string(),
-  /** Só dígitos, com 55 e o DDD. */
-  whatsapp: z.string().regex(/^\d{12,13}$/),
+  /** O telefone do negócio: só dígitos, com 55 e o DDD (5511912345678). */
+  telefone: z.string().regex(/^55\d{10,11}$/),
+  /** O mesmo número também atende no WhatsApp? Com true, o site mostra o botão dele no contato e no rodapé. */
+  temWhatsapp: z.boolean(),
+  /** O e-mail de contato, se o negócio tiver. */
+  email: z.email().optional(),
   endereco: z.string(),
   horarios: z.array(HorarioSchema),
   produtos: z.array(ProdutoSchema),

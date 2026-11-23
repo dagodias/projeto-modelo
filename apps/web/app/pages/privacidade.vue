@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * A privacidade, em linguagem simples. Vale enquanto o site não guarda dados de quem visita.
- * Mudou o site (cadastro, pagamento, rastreador, formulário)? Mude este texto junto, e a data.
+ * Mudou o site (pedido, cadastro, pagamento, rastreador, formulário)? Mude este texto junto, e a data.
  */
 const { data: negocio } = await useNegocio()
 
@@ -39,12 +39,12 @@ const nome = computed(() => negocio.value?.nome ?? 'este negócio')
         </section>
         <section>
           <h2 class="text-xl font-semibold text-stone-900 dark:text-white">
-            Quando você chama no WhatsApp
+            Quando você fala com a gente
           </h2>
           <p class="mt-3">
-            O botão abre a conversa no seu WhatsApp, com a mensagem já escrita. A conversa fica
-            entre você e
-            {{ nome }}, dentro do WhatsApp, e segue as regras de privacidade dele.
+            Os links de contato só abrem o seu telefone, o seu WhatsApp ou o seu e-mail: o que você
+            diz não passa por este site. A conversa fica entre você e {{ nome }}, só para responder
+            você. No WhatsApp, ela também segue as regras de privacidade dele.
           </p>
         </section>
         <section>

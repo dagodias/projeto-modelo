@@ -1,4 +1,4 @@
-/** O Fastify e os plugins: segurança, cookies, limite de pedidos e a documentação (Swagger). */
+/** O Fastify e os plugins: segurança, cookies, limite de chamadas e a documentação (Swagger). */
 import Fastify from 'fastify'
 import cookie from '@fastify/cookie'
 import helmet from '@fastify/helmet'
@@ -18,7 +18,7 @@ export async function criarServidor() {
   const app = Fastify({
     logger: { level: process.env.NODE_ENV === 'test' ? 'silent' : 'info' },
     // O nginx e o Nuxt, na mesma máquina, repassam o IP de quem visita no X-Forwarded-For.
-    // Só esse repasse vale: o cabeçalho que a pessoa inventar não troca o IP (nem fura o limite de pedidos).
+    // Só esse repasse vale: o cabeçalho que a pessoa inventar não troca o IP (nem fura o limite de chamadas).
     trustProxy: 'loopback',
   }).withTypeProvider<ZodTypeProvider>()
 

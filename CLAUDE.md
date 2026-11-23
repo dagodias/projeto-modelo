@@ -61,7 +61,7 @@ O `llms.txt` é o índice que o próprio site escreve para a IA, com o endereço
 
 `/nova-funcionalidade` · `/imposto` · `/revisar` · `/ligar-banco` · `/ligar-login` · `/publicar` · `/trocar-estilo`
 
-## Como começar qualquer pedido
+## Como começar qualquer tarefa
 
 1. Ache o assunto na tabela acima e leia o "0. Estado" do documento dele.
 2. Confira o estado real (o código, o que está rodando) antes de afirmar.

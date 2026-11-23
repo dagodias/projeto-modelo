@@ -26,7 +26,7 @@ describe('a API', () => {
     expect(NegocioPublicoSchema.safeParse(resposta.json()).success).toBe(true)
   })
 
-  it('limita os pedidos por visitante, sem cair no IP inventado', async () => {
+  it('limita as chamadas por visitante, sem cair no IP inventado', async () => {
     // O nginx acrescenta o IP verdadeiro no fim do X-Forwarded-For; o começo, quem visita pode inventar.
     const pedir = (inventado: number) =>
       app.inject({

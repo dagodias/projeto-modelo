@@ -4,7 +4,7 @@
  * O PROMPT-PAGINA-PRINCIPAL do curso transforma a página antiga do negócio (docs/original) nesta página.
  */
 import { formatarPreco } from '@projeto/shared'
-import { ArrowRight, Bike, ImageIcon, MessageCircle, ShoppingBag } from '@lucide/vue'
+import { ArrowDown, ArrowRight, ImageIcon, Package, Phone, ShoppingBag } from '@lucide/vue'
 
 const { data: negocio, error } = await useNegocio()
 
@@ -15,10 +15,6 @@ useSeoMeta({
   ogDescription: () => negocio.value?.frase,
 })
 
-const linkConversa = computed(() =>
-  negocio.value ? linkWhatsapp(negocio.value.whatsapp, mensagemDoSite(negocio.value.nome)) : '',
-)
-
 // Exemplo: troque pelos passos do seu negócio, ou apague a seção.
 const passos = [
   {
@@ -27,12 +23,12 @@ const passos = [
     texto: 'Veja os produtos e os preços com calma, no celular ou no computador.',
   },
   {
-    icone: MessageCircle,
-    titulo: 'Peça pelo WhatsApp',
-    texto: 'A mensagem sai pronta: é só conferir e enviar.',
+    icone: Phone,
+    titulo: 'Fale com a gente',
+    texto: 'Tire as dúvidas e combine os detalhes do jeito que preferir.',
   },
   {
-    icone: Bike,
+    icone: Package,
     titulo: 'Receba ou retire',
     texto: 'Combine a entrega ou passe aqui para buscar.',
   },
@@ -71,13 +67,12 @@ const passos = [
               {{ negocio.frase }}
             </p>
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <BaseBotao :para="linkConversa" tamanho="grande">
-                <MessageCircle class="size-5" aria-hidden="true" />
-                Falar pelo WhatsApp
-              </BaseBotao>
-              <BaseBotao para="#produtos" variante="secundario" tamanho="grande">
+              <BaseBotao para="#produtos" tamanho="grande">
                 Ver os produtos
-                <ArrowRight class="size-5" aria-hidden="true" />
+                <ArrowDown class="size-5" aria-hidden="true" />
+              </BaseBotao>
+              <BaseBotao para="/contato" variante="secundario" tamanho="grande">
+                Fale com a gente
               </BaseBotao>
             </div>
           </div>
@@ -94,7 +89,7 @@ const passos = [
       <BaseSecao
         id="produtos"
         titulo="Os produtos"
-        subtitulo="Escolha o seu e peça pelo WhatsApp: a mensagem já sai escrita."
+        subtitulo="O que temos hoje, com o preço de cada um."
         fundo="suave"
         exemplo
       >
@@ -170,11 +165,13 @@ const passos = [
             <h2 class="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
               Ficou com alguma dúvida?
             </h2>
-            <p class="mt-2 text-marca-50">Chame no WhatsApp: a resposta é rápida.</p>
+            <p class="mt-2 text-marca-50">
+              O telefone, o endereço e o horário estão na página de contato.
+            </p>
           </div>
-          <BaseBotao :para="linkConversa" variante="secundario" tamanho="grande" class="shrink-0">
-            <MessageCircle class="size-5" aria-hidden="true" />
-            Falar pelo WhatsApp
+          <BaseBotao para="/contato" variante="secundario" tamanho="grande" class="shrink-0">
+            Fale com a gente
+            <ArrowRight class="size-5" aria-hidden="true" />
           </BaseBotao>
         </div>
       </section>

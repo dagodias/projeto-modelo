@@ -70,7 +70,10 @@ export interface paths {
                         "application/json": {
                             nome: string;
                             frase: string;
-                            whatsapp: string;
+                            telefone: string;
+                            temWhatsapp: boolean;
+                            /** Format: email */
+                            email?: string;
                             endereco: string;
                             horarios: {
                                 dia: number;

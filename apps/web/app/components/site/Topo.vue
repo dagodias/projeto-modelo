@@ -1,12 +1,12 @@
 <script setup lang="ts">
 /**
- * O topo de todas as páginas: a logo, o menu e o botão do WhatsApp.
- * No celular, o menu abre num botão. Os itens do menu moram no app.config.ts.
+ * O topo de todas as páginas: a logo e o menu. No celular, o menu abre num botão.
+ * Os itens do menu moram no app.config.ts.
  */
 import type { NegocioPublico } from '@projeto/shared'
-import { Menu, MessageCircle, X } from '@lucide/vue'
+import { Menu, X } from '@lucide/vue'
 
-const props = defineProps<{ negocio?: NegocioPublico | null }>()
+defineProps<{ negocio?: NegocioPublico | null }>()
 
 const { menu } = useAppConfig()
 const route = useRoute()
@@ -18,10 +18,6 @@ watch(
   () => {
     aberto.value = false
   },
-)
-
-const linkConversa = computed(() =>
-  props.negocio ? linkWhatsapp(props.negocio.whatsapp, mensagemDoSite(props.negocio.nome)) : '',
 )
 </script>
 
@@ -52,26 +48,17 @@ const linkConversa = computed(() =>
         </ul>
       </nav>
 
-      <div class="flex items-center gap-2">
-        <!-- O esconder fica numa caixa em volta: no próprio botão, a classe dele ganharia da hidden. -->
-        <div v-if="linkConversa" class="hidden sm:block">
-          <BaseBotao :para="linkConversa" tamanho="pequeno">
-            <MessageCircle class="size-4" aria-hidden="true" />
-            Falar pelo WhatsApp
-          </BaseBotao>
-        </div>
-        <button
-          type="button"
-          class="-mr-2 inline-flex size-11 items-center justify-center rounded-lg text-stone-700 transition-colors hover:bg-stone-100 md:hidden dark:text-stone-200 dark:hover:bg-stone-800"
-          :aria-expanded="aberto"
-          aria-controls="menu-celular"
-          @click="aberto = !aberto"
-        >
-          <X v-if="aberto" class="size-6" aria-hidden="true" />
-          <Menu v-else class="size-6" aria-hidden="true" />
-          <span class="sr-only">{{ aberto ? 'Fechar o menu' : 'Abrir o menu' }}</span>
-        </button>
-      </div>
+      <button
+        type="button"
+        class="-mr-2 inline-flex size-11 items-center justify-center rounded-lg text-stone-700 transition-colors hover:bg-stone-100 md:hidden dark:text-stone-200 dark:hover:bg-stone-800"
+        :aria-expanded="aberto"
+        aria-controls="menu-celular"
+        @click="aberto = !aberto"
+      >
+        <X v-if="aberto" class="size-6" aria-hidden="true" />
+        <Menu v-else class="size-6" aria-hidden="true" />
+        <span class="sr-only">{{ aberto ? 'Fechar o menu' : 'Abrir o menu' }}</span>
+      </button>
     </div>
 
     <nav
@@ -91,12 +78,6 @@ const linkConversa = computed(() =>
           </NuxtLink>
         </li>
       </ul>
-      <div v-if="linkConversa" class="mx-auto max-w-6xl px-4 pb-4 sm:hidden">
-        <BaseBotao :para="linkConversa" bloco>
-          <MessageCircle class="size-5" aria-hidden="true" />
-          Falar pelo WhatsApp
-        </BaseBotao>
-      </div>
     </nav>
   </header>
 </template>

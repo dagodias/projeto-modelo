@@ -1,5 +1,5 @@
-# O Dependabot abre um pedido de atualização quando uma biblioteca tem versão nova.
-# O portão roda em cada pedido: se ficar verde, dá para aceitar.
+# O Dependabot propõe a atualização (um pull request) quando uma biblioteca tem versão nova.
+# O portão roda em cada proposta: se ficar verde, dá para aceitar.
 version: 2
 updates:
   - package-ecosystem: npm

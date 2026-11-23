@@ -2,7 +2,7 @@
 # Prepara um servidor Ubuntu LTS novo para o projeto. Roda no servidor, como root (sudo).
 #
 # Uso:   sudo bash preparar.sh <projeto> <repositorio-ssh> <dominio>
-# Ex.:   sudo bash preparar.sh lanchonete git@github.com:fulana/lanchonete.git lanchonetedoleo.com.br
+# Ex.:   sudo bash preparar.sh meu-negocio git@github.com:fulana/meu-negocio.git meunegocio.com.br
 #
 # Pode rodar de novo quantas vezes precisar: o que já está feito, ele pula ou refaz igual.
 set -euo pipefail

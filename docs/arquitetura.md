@@ -12,7 +12,7 @@
 | ----------- | ------------------------------------------------------------------------------------------------- |
 | Linguagem   | TypeScript, nos dois lados                                                                        |
 | A frente    | Nuxt 4 (Vue), Tailwind e os ícones Lucide                                                         |
-| A API       | Fastify, com o Zod validando cada pedido e o Swagger em `/api/docs`                               |
+| A API       | Fastify, com o Zod validando cada chamada e o Swagger em `/api/docs`                              |
 | O contrato  | `packages/shared`: os schemas Zod que a frente e a API usam; e o cliente da frente, gerado da API |
 | O banco     | PostgreSQL com Prisma, ligado com `/ligar-banco`                                                  |
 | O login     | Better Auth, ligado com `/ligar-login`                                                            |
@@ -28,10 +28,10 @@ apps/web/app/pages/          uma página por arquivo; o nome do arquivo é o end
 apps/web/app/layouts/        a casca de todas as páginas: o topo, a página e o rodapé
 apps/web/app/components/     os pedaços da tela: base/ (as peças: botão, cartão, seção...) e site/ (topo,
                              rodapé, logo); o jeito de usar está no docs/visual.md
-apps/web/app/composables/    o useNegocio: os dados do negócio, um pedido por página
+apps/web/app/composables/    o useNegocio: os dados do negócio, uma chamada por página
 apps/web/app/plugins/api.ts  o $api: o único jeito de a frente chamar a API
 apps/web/app/types/api.d.ts  o contrato gerado da API (pnpm contrato; nunca à mão)
-apps/web/app/utils/          funções da tela (o link do WhatsApp, o do mapa, o horário resumido)
+apps/web/app/utils/          funções da tela (os contatos: telefone, WhatsApp e e-mail; o mapa; o horário resumido)
 apps/web/app/app.config.ts   o menu e o endereço do site
 apps/web/app/assets/css/     a cara do site: a fonte, a cor da marca e o arredondado (o @theme do Tailwind)
 apps/web/app/error.vue       a página de erro (a que não existe e a que falhou)
@@ -49,7 +49,7 @@ infra/                       preparar o servidor e publicar
 
 Arquivo novo copia o jeito de um irmão recente do mesmo tipo. Nunca inventa estrutura.
 
-## O caminho de um pedido
+## O caminho de uma chamada
 
 ```
 O cliente abre a página
@@ -97,8 +97,10 @@ da peça antes de usar o que o projeto ainda não usa; o imposto da documentaç�
 
 ## As camadas que se ligam quando precisa
 
-- **O banco** (`/ligar-banco`): quando o projeto precisar guardar dados (os pedidos, o cadastro). PostgreSQL com Prisma
-  7; os dados do `config/negocio.ts` passam para o banco quando o painel do dono existir.
+- **O banco** (`/ligar-banco`): quando o projeto começar a guardar dados. PostgreSQL com Prisma 7. Tudo o que o
+  negócio precisa guardar mora nele: os pedidos dos clientes (com o número e o andamento), o catálogo e o cadastro;
+  nunca na memória da API nem no navegador. Os dados do `config/negocio.ts` passam para ele quando o painel do dono
+  existir.
 - **O login** (`/ligar-login`): quando nascer a área com senha (o painel do dono). Better Auth, com o banco já ligado.
 
 ## Fica para depois

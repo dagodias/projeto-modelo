@@ -66,9 +66,17 @@
                     "frase": {
                       "type": "string"
                     },
-                    "whatsapp": {
+                    "telefone": {
                       "type": "string",
-                      "pattern": "^\\d{12,13}$"
+                      "pattern": "^55\\d{10,11}$"
+                    },
+                    "temWhatsapp": {
+                      "type": "boolean"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
                     },
                     "endereco": {
                       "type": "string"
@@ -168,7 +176,8 @@
                   "required": [
                     "nome",
                     "frase",
-                    "whatsapp",
+                    "telefone",
+                    "temWhatsapp",
                     "endereco",
                     "horarios",
                     "produtos",

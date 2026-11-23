@@ -1,9 +1,9 @@
 /**
- * A casca do site num navegador de verdade: as páginas de base, o rodapé, o menu do celular, o teclado,
- * a página de erro, o guia de estilo, o modo escuro e os arquivos da prévia do link.
+ * A casca do site num navegador de verdade: as páginas de base, o contato e o rodapé, o menu do celular, o
+ * teclado, a página de erro, o guia de estilo, o modo escuro e os arquivos da prévia do link.
  */
-import { NegocioPublicoSchema } from '@projeto/shared'
-import { expect, test } from '@playwright/test'
+import { type NegocioPublico, NegocioPublicoSchema } from '@projeto/shared'
+import { expect, type Locator, test } from '@playwright/test'
 
 const paginas = [
   { caminho: '/sobre', titulo: 'A nossa história', aba: 'Sobre' },
@@ -25,13 +25,40 @@ test('cada página abre com o seu título e cabe na tela', async ({ page, reques
   }
 })
 
-test('o rodapé traz o WhatsApp e o caminho da privacidade', async ({ page }) => {
+/** O telefone sempre; o WhatsApp só se o número atende nele; o e-mail só se o negócio tem. */
+async function conferirContatos(lugar: Locator, negocio: NegocioPublico) {
+  await expect(lugar.getByRole('link', { name: /^Telefone/ })).toHaveAttribute(
+    'href',
+    `tel:+${negocio.telefone}`,
+  )
+  const whatsapp = lugar.getByRole('link', { name: /^WhatsApp/ })
+  if (negocio.temWhatsapp) {
+    await expect(whatsapp).toHaveAttribute(
+      'href',
+      new RegExp(`^https://wa\\.me/${negocio.telefone}\\?text=`),
+    )
+  } else {
+    await expect(whatsapp).toHaveCount(0)
+  }
+  const email = lugar.getByRole('link', { name: /^E-mail/ })
+  if (negocio.email) {
+    await expect(email).toHaveAttribute('href', `mailto:${negocio.email}`)
+  } else {
+    await expect(email).toHaveCount(0)
+  }
+}
+
+test('o contato mostra os jeitos de falar com o negócio', async ({ page, request }) => {
+  const negocio = NegocioPublicoSchema.parse(await (await request.get('/api/negocio')).json())
+  await page.goto('/contato')
+  await conferirContatos(page.getByRole('main'), negocio)
+})
+
+test('o rodapé traz os contatos e o caminho da privacidade', async ({ page, request }) => {
+  const negocio = NegocioPublicoSchema.parse(await (await request.get('/api/negocio')).json())
   await page.goto('/')
   const rodape = page.getByRole('contentinfo')
-  await expect(rodape.getByRole('link', { name: /WhatsApp/ })).toHaveAttribute(
-    'href',
-    /^https:\/\/wa\.me\//,
-  )
+  await conferirContatos(rodape, negocio)
   await rodape.getByRole('link', { name: 'Privacidade' }).click()
   await expect(page).toHaveURL(/\/privacidade$/)
 })

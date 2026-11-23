@@ -7,16 +7,21 @@ import type { Negocio } from '@projeto/shared'
 export const negocio: Negocio = {
   nome: 'Meu Negócio',
   frase: 'Troque esta frase pelo que o seu negócio faz.',
-  // Número de exemplo: troque pelo da loja, só dígitos, com 55 e o DDD.
-  whatsapp: '5500000000000',
+  // O telefone de exemplo: troque pelo do negócio, só dígitos, com 55 e o DDD.
+  telefone: '5500000000000',
+  // O mesmo número atende no WhatsApp? Com true, o contato e o rodapé mostram o botão dele; com false, não.
+  temWhatsapp: true,
+  // O e-mail de contato. O negócio não tem? Apague a linha.
+  email: 'contato@meunegocio.example',
   endereco: 'Rua de Exemplo, 100, Centro',
+  // Um dia por linha (0 é domingo, 6 é sábado), na hora de Brasília. O dia que não está aqui é fechado.
   horarios: [
-    { dia: 2, abre: '18:00', fecha: '23:00' },
-    { dia: 3, abre: '18:00', fecha: '23:00' },
-    { dia: 4, abre: '18:00', fecha: '23:00' },
-    { dia: 5, abre: '18:00', fecha: '23:00' },
-    { dia: 6, abre: '18:00', fecha: '23:00' },
-    { dia: 0, abre: '18:00', fecha: '23:00' },
+    { dia: 1, abre: '09:00', fecha: '18:00' },
+    { dia: 2, abre: '09:00', fecha: '18:00' },
+    { dia: 3, abre: '09:00', fecha: '18:00' },
+    { dia: 4, abre: '09:00', fecha: '18:00' },
+    { dia: 5, abre: '09:00', fecha: '18:00' },
+    { dia: 6, abre: '09:00', fecha: '13:00' },
   ],
   produtos: [
     {

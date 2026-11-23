@@ -1,5 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { formatarPreco, ProdutoSchema, RedeSchema } from '../src/index.js'
+import { formatarPreco, NegocioSchema, ProdutoSchema, RedeSchema } from '../src/index.js'
+
+const negocio = {
+  nome: 'Meu Negócio',
+  frase: '',
+  telefone: '5511912345678',
+  temWhatsapp: false,
+  endereco: '',
+  horarios: [],
+  produtos: [],
+  redes: [],
+}
 
 describe('o contrato', () => {
   it('mostra centavos como reais', () => {
@@ -26,5 +37,20 @@ describe('o contrato', () => {
     expect(RedeSchema.safeParse({ nome: 'Golpe', endereco: 'javascript:alert(1)' }).success).toBe(
       false,
     )
+  })
+
+  it('o telefone é só dígitos, com 55 e o DDD', () => {
+    expect(NegocioSchema.safeParse(negocio).success).toBe(true)
+    expect(NegocioSchema.safeParse({ ...negocio, telefone: '551133334444' }).success).toBe(true)
+    for (const telefone of ['11912345678', '(11) 91234-5678', '55119123456789']) {
+      expect(NegocioSchema.safeParse({ ...negocio, telefone }).success, telefone).toBe(false)
+    }
+  })
+
+  it('o e-mail é opcional, mas, se vier, precisa ser um e-mail', () => {
+    expect(NegocioSchema.safeParse({ ...negocio, email: 'contato@exemplo.com.br' }).success).toBe(
+      true,
+    )
+    expect(NegocioSchema.safeParse({ ...negocio, email: 'contato' }).success).toBe(false)
   })
 })

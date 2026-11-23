@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * O botão do site. Com "para", vira link (uma página do site ou um endereço de fora, como o do WhatsApp);
+ * O botão do site. Com "para", vira link (uma página do site ou um endereço de fora, como o do mapa);
  * sem "para", é um botão de verdade.
  * variante: principal (a ação mais importante da tela; uma por tela), secundario ou discreto.
  */

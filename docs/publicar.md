@@ -41,14 +41,14 @@ Voltar o código não desfaz mudança no banco: mudança de banco que apaga cois
 
 ## Os scripts (pasta infra)
 
-| Script                                                      | Onde roda         | Para quê                                                 |
-| ----------------------------------------------------------- | ----------------- | -------------------------------------------------------- |
-| `infra/servidor/preparar.sh <projeto> <repo-ssh> <dominio>` | no servidor       | Prepara um Ubuntu novo do zero; pode rodar de novo       |
-| `infra/servidor/cadeado.sh <dominio> <email>`               | no servidor       | O cadeado do Let's Encrypt, depois que o domínio apontar |
-| `infra/servidor/criar-banco.sh <projeto>`                   | no servidor       | Cria o banco quando ele for ligado (`/ligar-banco`)      |
-| `infra/servidor/atualizar.sh <projeto>`                     | no servidor       | O que o `pnpm publicar` chama                            |
-| `infra/servidor/backup.sh <projeto>`                        | no servidor       | O backup diário (o timer chama)                          |
-| `infra/publicar.sh`                                         | no seu computador | O `pnpm publicar`                                        |
+| Script                                                      | Onde roda         | Para quê                                                                                                               |
+| ----------------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `infra/servidor/preparar.sh <projeto> <repo-ssh> <dominio>` | no servidor       | Prepara um Ubuntu novo do zero; pode rodar de novo                                                                     |
+| `infra/servidor/cadeado.sh <dominio> <email>`               | no servidor       | O cadeado do Let's Encrypt, depois que o domínio apontar; se o certificado já existe, instala o mesmo, sem pedir outro |
+| `infra/servidor/criar-banco.sh <projeto>`                   | no servidor       | Cria o banco quando ele for ligado (`/ligar-banco`)                                                                    |
+| `infra/servidor/atualizar.sh <projeto>`                     | no servidor       | O que o `pnpm publicar` chama                                                                                          |
+| `infra/servidor/backup.sh <projeto>`                        | no servidor       | O backup diário (o timer chama)                                                                                        |
+| `infra/publicar.sh`                                         | no seu computador | O `pnpm publicar`                                                                                                      |
 
 ## Ver o que está acontecendo
 

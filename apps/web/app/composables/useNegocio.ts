@@ -1,7 +1,7 @@
 /**
  * Os dados do negócio que a API mostra para quem visita (GET /api/negocio).
  * O layout pede uma vez e passa para o topo e o rodapé; a página que também precisa chama de novo:
- * com a mesma chave, o Nuxt aproveita o mesmo pedido.
+ * com a mesma chave, o Nuxt aproveita a mesma chamada.
  */
 import type { NuxtApp } from '#app'
 
