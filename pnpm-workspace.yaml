@@ -8,3 +8,9 @@ allowBuilds:
 
 minimumReleaseAgeExclude:
   - '@lucide/vue@1.78.0'
+
+# O openapi-typescript (o gerador do cliente da frente) pede TypeScript 5 e funciona com o 6, testado:
+# sem esta linha, toda instalação mostraria um aviso falso.
+peerDependencyRules:
+  allowedVersions:
+    openapi-typescript>typescript: '6'

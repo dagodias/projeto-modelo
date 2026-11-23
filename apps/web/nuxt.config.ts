@@ -10,6 +10,10 @@ export default defineNuxtConfig({
   routeRules: {
     '/api/**': { proxy: 'http://127.0.0.1:3333/api/**' },
   },
+  // Na página montada no servidor, o $api fala direto com a API, sem dar a volta pelo /api.
+  runtimeConfig: {
+    apiInterna: 'http://127.0.0.1:3333',
+  },
   app: {
     head: {
       htmlAttrs: { lang: 'pt-BR' },

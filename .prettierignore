@@ -3,3 +3,9 @@ pnpm-lock.yaml
 .output
 dist
 coverage
+playwright-report
+test-results
+
+# gerados pelo pnpm contrato
+apps/api/openapi.json
+apps/web/app/types/api.d.ts

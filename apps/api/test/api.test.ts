@@ -26,6 +26,18 @@ describe('a API', () => {
     expect(NegocioPublicoSchema.safeParse(resposta.json()).success).toBe(true)
   })
 
+  it('limita os pedidos por visitante, sem cair no IP inventado', async () => {
+    // O nginx acrescenta o IP verdadeiro no fim do X-Forwarded-For; o começo, quem visita pode inventar.
+    const pedir = (inventado: number) =>
+      app.inject({
+        method: 'GET',
+        url: '/api/saude',
+        headers: { 'x-forwarded-for': `10.0.0.${inventado}, 203.0.113.9` },
+      })
+    for (let i = 0; i < 100; i++) expect((await pedir(i)).statusCode).toBe(200)
+    expect((await pedir(100)).statusCode).toBe(429)
+  })
+
   it('documenta as rotas no Swagger', async () => {
     const resposta = await app.inject({ method: 'GET', url: '/api/docs/json' })
     expect(resposta.statusCode).toBe(200)

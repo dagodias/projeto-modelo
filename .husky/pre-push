@@ -1,2 +1,6 @@
 pnpm typecheck
+git diff --quiet HEAD -- apps/api/openapi.json apps/web/app/types/api.d.ts || {
+  echo "O contrato da API mudou (pnpm contrato). Faça o commit de apps/api/openapi.json e apps/web/app/types/api.d.ts e envie de novo."
+  exit 1
+}
 pnpm test

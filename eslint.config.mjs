@@ -5,7 +5,17 @@ import prettier from 'eslint-config-prettier'
 
 export default defineConfig(
   {
-    ignores: ['**/node_modules/**', '**/.nuxt/**', '**/.output/**', '**/dist/**', '**/coverage/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/.nuxt/**',
+      '**/.output/**',
+      '**/dist/**',
+      '**/coverage/**',
+      '**/playwright-report/**',
+      '**/test-results/**',
+      // gerado pelo pnpm contrato: nunca se edita à mão
+      'apps/web/app/types/api.d.ts',
+    ],
   },
   tseslint.configs.recommended,
   pluginVue.configs['flat/recommended'],

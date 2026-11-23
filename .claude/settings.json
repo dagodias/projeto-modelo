@@ -1,5 +1,19 @@
 {
   "permissions": {
+    "allow": [
+      "mcp__nuxt",
+      "WebFetch(domain:nuxt.com)",
+      "WebFetch(domain:vuejs.org)",
+      "WebFetch(domain:fastify.dev)",
+      "WebFetch(domain:zod.dev)",
+      "WebFetch(domain:www.prisma.io)",
+      "WebFetch(domain:www.better-auth.com)",
+      "WebFetch(domain:vitest.dev)",
+      "WebFetch(domain:playwright.dev)",
+      "WebFetch(domain:tailwindcss.com)",
+      "WebFetch(domain:openapi-ts.dev)",
+      "WebFetch(domain:pnpm.io)"
+    ],
     "deny": [
       "Read(./.env)",
       "Read(./**/.env)",

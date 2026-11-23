@@ -1,0 +1,9 @@
+{
+  // Só os testes de tela (e2e) e a configuração do Playwright: cada app tem o seu tsconfig.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM"],
+    "types": ["node"]
+  },
+  "include": ["playwright.config.ts", "e2e"]
+}

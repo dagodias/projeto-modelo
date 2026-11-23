@@ -17,8 +17,9 @@ import { saudeRoutes } from './routes/saude.routes.js'
 export async function criarServidor() {
   const app = Fastify({
     logger: { level: process.env.NODE_ENV === 'test' ? 'silent' : 'info' },
-    // No servidor, o nginx fica na frente: o IP de quem visita vem no cabeçalho dele.
-    trustProxy: true,
+    // O nginx e o Nuxt, na mesma máquina, repassam o IP de quem visita no X-Forwarded-For.
+    // Só esse repasse vale: o cabeçalho que a pessoa inventar não troca o IP (nem fura o limite de pedidos).
+    trustProxy: 'loopback',
   }).withTypeProvider<ZodTypeProvider>()
 
   app.setValidatorCompiler(validatorCompiler)

@@ -1,22 +1,18 @@
 /**
  * O $api: o único jeito de a frente chamar a API.
- * Na página montada no servidor, ele repassa o cookie de quem está visitando (useRequestFetch);
- * no navegador, é o $fetch de sempre.
+ * Os caminhos, o que cada rota recebe e o que devolve vêm do contrato gerado da API (pnpm contrato):
+ * se a API muda e a frente não acompanha, o erro aparece no pnpm typecheck, antes de rodar.
+ * Na página montada no servidor, ele fala direto com a API e repassa o cookie e o IP de quem visita;
+ * no navegador, chama /api, que o Nuxt (no computador) ou o nginx (no servidor) repassa para a API.
  */
-type Opcoes = {
-  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
-  body?: Record<string, unknown>
-  query?: Record<string, string | number | boolean>
-}
-
-type Buscar = <T>(url: string, opcoes?: Opcoes) => Promise<T>
+import createClient from 'openapi-fetch'
+import type { paths } from '~/types/api'
 
 export default defineNuxtPlugin(() => {
-  const buscar = useRequestFetch() as unknown as Buscar
-
-  function api<T>(caminho: string, opcoes: Opcoes = {}): Promise<T> {
-    return buscar<T>(`/api${caminho}`, opcoes)
-  }
+  const api = createClient<paths>({
+    baseUrl: import.meta.server ? useRuntimeConfig().apiInterna : '',
+    headers: useRequestHeaders(['cookie', 'x-forwarded-for']),
+  })
 
   return { provide: { api } }
 })

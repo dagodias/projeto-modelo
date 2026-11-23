@@ -1,0 +1,165 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "A API do projeto",
+    "description": "Toda rota aparece aqui, com o que recebe e o que devolve.",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {}
+  },
+  "paths": {
+    "/api/saude": {
+      "get": {
+        "summary": "Confere se a API está no ar",
+        "tags": [
+          "sistema"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "hora": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "ok",
+                    "hora"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/negocio": {
+      "get": {
+        "summary": "Os dados públicos do negócio: nome, horários, produtos disponíveis e se está aberto agora",
+        "tags": [
+          "negócio"
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nome": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "frase": {
+                      "type": "string"
+                    },
+                    "whatsapp": {
+                      "type": "string",
+                      "pattern": "^\\d{12,13}$"
+                    },
+                    "endereco": {
+                      "type": "string"
+                    },
+                    "horarios": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "dia": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 6
+                          },
+                          "abre": {
+                            "type": "string",
+                            "pattern": "^\\d{2}:\\d{2}$"
+                          },
+                          "fecha": {
+                            "type": "string",
+                            "pattern": "^\\d{2}:\\d{2}$"
+                          }
+                        },
+                        "required": [
+                          "dia",
+                          "abre",
+                          "fecha"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "produtos": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "nome": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "descricao": {
+                            "type": "string"
+                          },
+                          "precoCentavos": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "foto": {
+                            "nullable": true,
+                            "type": "string"
+                          },
+                          "disponivel": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "nome",
+                          "descricao",
+                          "precoCentavos",
+                          "foto",
+                          "disponivel"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "abertoAgora": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "nome",
+                    "frase",
+                    "whatsapp",
+                    "endereco",
+                    "horarios",
+                    "produtos",
+                    "abertoAgora"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

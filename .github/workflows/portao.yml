@@ -1,4 +1,4 @@
-# O portão: a cada envio ao GitHub, a mesma checagem do computador, mais o build.
+# O portão: a cada envio ao GitHub, a mesma checagem do computador, mais o build e os testes de tela.
 # Se ficar vermelho, o código não está pronto para ir ao servidor.
 name: Portão
 
@@ -22,9 +22,19 @@ jobs:
         run: pnpm segredos
       - name: O jeito de escrever (lint)
         run: pnpm lint
-      - name: Os tipos
+      - name: Os tipos (com o contrato gerado de novo a partir da API)
         run: pnpm typecheck
+      - name: O contrato guardado bate com a API
+        run: |
+          git diff --exit-code HEAD -- apps/api/openapi.json apps/web/app/types/api.d.ts || {
+            echo "::error::O contrato da API mudou e não foi guardado: rode pnpm contrato e faça o commit dos dois arquivos."
+            exit 1
+          }
       - name: Os testes
         run: pnpm test
       - name: O build de produção
         run: pnpm build
+      - name: O navegador dos testes de tela
+        run: pnpm exec playwright install --with-deps --only-shell chromium
+      - name: Os testes de tela (o navegador abre o site)
+        run: pnpm exec playwright test

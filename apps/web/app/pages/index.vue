@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { formatarPreco, type NegocioPublico } from '@projeto/shared'
+import { formatarPreco } from '@projeto/shared'
 import { MessageCircle } from '@lucide/vue'
 
 const { $api } = useNuxtApp()
-const { data: negocio, error } = await useAsyncData('negocio', () =>
-  $api<NegocioPublico>('/negocio'),
-)
+const { data: negocio, error } = await useAsyncData('negocio', async () => {
+  // O caminho e o formato da resposta vêm do contrato: o editor completa e o typecheck confere.
+  const { data } = await $api.GET('/api/negocio')
+  if (!data) throw createError({ statusCode: 502, statusMessage: 'A API não respondeu' })
+  return data
+})
 
 useSeoMeta({
   title: () => negocio.value?.nome ?? 'Carregando',
