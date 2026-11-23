@@ -1,0 +1,10 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Pacotes que podem rodar script na instalação (o pnpm bloqueia os outros).
+allowBuilds:
+  esbuild: true
+
+minimumReleaseAgeExclude:
+  - '@lucide/vue@1.78.0'

@@ -1,0 +1,31 @@
+{
+  "name": "projeto-modelo",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.23.0",
+  "engines": {
+    "node": ">=24.15"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel --stream run dev",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "typecheck": "pnpm -r run typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "segredos": "secretlint \"**/*\"",
+    "publicar": "bash infra/publicar.sh",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "eslint": "^10.15.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.12.1",
+    "husky": "^9.1.7",
+    "prettier": "^3.10.1",
+    "secretlint": "^14.1.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.73.0",
+    "vue-eslint-parser": "^10.4.2"
+  }
+}

@@ -1,0 +1,16 @@
+# O Dependabot abre um pedido de atualização quando uma biblioteca tem versão nova.
+# O portão roda em cada pedido: se ficar verde, dá para aceitar.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      atualizacoes-pequenas:
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

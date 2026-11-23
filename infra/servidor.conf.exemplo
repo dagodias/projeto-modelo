@@ -1,0 +1,4 @@
+# Copie para infra/servidor.conf (o PUBLICACAO-DAGOBERTO.md faz isso). Sem senha e sem IP.
+APELIDO=meu-projeto
+PROJETO=meu-projeto
+DOMINIO=meunegocio.com.br

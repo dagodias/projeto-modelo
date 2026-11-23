@@ -1,0 +1,30 @@
+# O portão: a cada envio ao GitHub, a mesma checagem do computador, mais o build.
+# Se ficar vermelho, o código não está pronto para ir ao servidor.
+name: Portão
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  conferir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Segredos esquecidos no código
+        run: pnpm segredos
+      - name: O jeito de escrever (lint)
+        run: pnpm lint
+      - name: Os tipos
+        run: pnpm typecheck
+      - name: Os testes
+        run: pnpm test
+      - name: O build de produção
+        run: pnpm build
