@@ -47,14 +47,37 @@ if ! command -v node > /dev/null || [ "$(node -p 'process.versions.node.split(".
 fi
 node --version
 
-passo "A segurança: firewall, bloqueio de tentativas, atualização automática e entrada só por chave"
+passo "A segurança: firewall, bloqueio de tentativas e atualização automática"
 if [ -z "$SEM_SYSTEMD" ]; then
   ufw allow OpenSSH && ufw allow 'Nginx Full' && ufw --force enable
   servico enable --now fail2ban
   dpkg-reconfigure -f noninteractive unattended-upgrades
-  printf 'PasswordAuthentication no\nKbdInteractiveAuthentication no\nPermitRootLogin no\n' \
-    > /etc/ssh/sshd_config.d/90-projeto.conf
-  sshd -t && servico reload ssh
+fi
+
+passo "A entrada só por chave: sem senha e sem o root"
+# No sshd vale o PRIMEIRO valor lido, e os arquivos do sshd_config.d entram em ordem alfabética. Por isso o 00-: ele
+# é lido antes do 50-cloud-init.conf, que a imagem do provedor grava ligando a senha quando a máquina nasce com uma.
+# No fim, quem confere é o sshd -T (o que o sshd vai usar de verdade), e não o arquivo escrito.
+if [ -n "$SEM_SYSTEMD" ] && ! command -v sshd > /dev/null; then
+  echo "(teste) este contêiner não tem o servidor de SSH: o passo fica de fora"
+else
+  CONF_SSH=/etc/ssh/sshd_config.d
+  printf 'PasswordAuthentication no\nKbdInteractiveAuthentication no\nPermitRootLogin no\n' > "$CONF_SSH/00-projeto.conf"
+  rm -f "$CONF_SSH/90-projeto.conf" # o nome que as versões anteriores deste script usavam
+  sshd -t
+  servico reload ssh
+  VALENDO="$(sshd -T)"
+  for REGRA in 'passwordauthentication no' 'kbdinteractiveauthentication no' 'permitrootlogin no'; do
+    if ! grep -qx "$REGRA" <<< "$VALENDO"; then
+      echo
+      echo "PAROU: o sshd não ficou com \"$REGRA\". A entrada por senha (ou a do root) continua ligada."
+      echo "Algum arquivo lido antes do $CONF_SSH/00-projeto.conf liga de novo. Para achar:"
+      echo "  sudo grep -ri -E 'passwordauthentication|kbdinteractiveauthentication|permitrootlogin' /etc/ssh/sshd_config /etc/ssh/sshd_config.d/"
+      echo "Desligue lá (ou apague o arquivo) e rode este script de novo."
+      exit 1
+    fi
+  done
+  echo "Conferido pelo sshd -T: sem senha, sem a entrada por teclado e sem o root."
 fi
 
 passo "O usuário do projeto ($PROJETO) e a chave de leitura do GitHub"

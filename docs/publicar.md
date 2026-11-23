@@ -62,3 +62,6 @@ Voltar o código não desfaz mudança no banco: mudança de banco que apaga cois
 - O build precisa de memória: o preparar.sh cria 2 GB de swap. Servidor de 1 GB fica no limite.
 - Na Amazon (Lightsail), o firewall do painel também precisa da porta 443 aberta, senão o cadeado não liga.
 - O IP do Lightsail muda se a máquina for desligada e ligada de novo, a não ser que ela tenha um IP estático.
+- No SSH vale o primeiro valor lido, e a máquina criada com senha traz um `50-cloud-init.conf` que liga a senha. Por
+  isso o preparar.sh grava o `00-projeto.conf` (lido antes de todos) e confere com o `sshd -T`: se algo lido antes
+  ainda ligar a senha ou o root, ele para e diz como achar.
