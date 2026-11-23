@@ -6,7 +6,8 @@ coverage
 playwright-report
 test-results
 
-# o modelo de estilo baixado (fora do Git)
+# a página antiga do negócio (guardada como estava) e o modelo de estilo baixado (fora do Git)
+docs/original
 docs/estilo
 
 # gerados pelo pnpm contrato

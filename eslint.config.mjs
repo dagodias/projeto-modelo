@@ -15,7 +15,8 @@ export default defineConfig(
       '**/test-results/**',
       // gerado pelo pnpm contrato: nunca se edita à mão
       'apps/web/app/types/api.d.ts',
-      // o modelo de estilo baixado (docs/visual.md): é referência, não código do projeto
+      // a página antiga do negócio e o modelo de estilo baixado: referência, não código do projeto
+      'docs/original/**',
       'docs/estilo/**',
     ],
   },
