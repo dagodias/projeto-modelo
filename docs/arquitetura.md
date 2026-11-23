@@ -12,7 +12,7 @@
 | ------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | Linguagem                | TypeScript, nos dois lados                                                                                  |
 | A frente                 | Nuxt 4 (Vue), Tailwind e os ícones Lucide                                                                   |
-| A API                    | Fastify, com o Zod validando cada chamada e o Swagger em `/api/docs`                                        |
+| A API                    | Fastify, com o Zod validando cada chamada e o Swagger em `/api/docs` (no ar, fechado)                       |
 | O contrato               | `packages/shared`: os schemas Zod que a frente e a API usam; e o cliente da frente, gerado da API           |
 | O banco                  | PostgreSQL com Prisma, ligado com `/ligar-banco`                                                            |
 | O login                  | Better Auth, ligado com `/ligar-login`                                                                      |
@@ -34,7 +34,8 @@ apps/web/app/components/     os pedaços da tela: base/ (as peças: botão, cart
 apps/web/app/composables/    o useNegocio: os dados do negócio, uma chamada por página
 apps/web/app/plugins/api.ts  o $api: o único jeito de a frente chamar a API
 apps/web/app/types/api.d.ts  o contrato gerado da API (pnpm contrato; nunca à mão)
-apps/web/app/utils/          funções da tela (os contatos: telefone, WhatsApp e e-mail; o mapa; o horário resumido)
+apps/web/app/utils/          funções da tela (os contatos: telefone, WhatsApp e e-mail; o mapa; o horário resumido;
+                             as páginas privadas, sem cache e fora do Google)
 apps/web/app/app.config.ts   o menu e o endereço do site
 apps/web/app/assets/css/     a cara do site: a fonte, a cor da marca e o arredondado (o @theme do Tailwind)
 apps/web/app/error.vue       a página de erro (a que não existe e a que falhou)
@@ -47,7 +48,7 @@ apps/api/src/env.ts          as configurações, conferidas na subida
 apps/api/scripts/openapi.ts  grava a especificação da API em apps/api/openapi.json
 packages/shared/src/         o contrato
 e2e/                         os testes de tela (Playwright)
-infra/                       preparar o servidor e publicar
+infra/                       preparar o servidor (servidor/) e publicar (publicar.mjs, o pnpm publicar)
 ```
 
 Arquivo novo copia o jeito de um irmão recente do mesmo tipo. Nunca inventa estrutura.
@@ -121,15 +122,20 @@ A proteção vem do jeito que o projeto é montado, não da memória de quem pro
 1. **Uma porta só:** da internet, só se chega ao nginx, com o cadeado; a API e o banco atendem só dentro da máquina.
 2. **A frente não decide nada:** preço, permissão e "aberto agora" saem da API.
 3. **Toda entrada é conferida** pelo Zod, antes de chegar na regra.
-4. **Toda rota tem guard**, até a pública.
+4. **Toda rota tem guard**, até a pública: rota `/api/*` sem guard faz a API recusar subir.
 5. **Nenhum SQL montado à mão:** o Prisma monta as consultas.
 6. **Segredo num lugar só:** o `.env` do servidor, nunca no Git, na conversa ou no registro.
 7. **O portão barra antes de entrar:** no commit, no envio e no GitHub.
 8. **Ninguém mexe direto no servidor:** só vai ao ar o que está no GitHub, pelo `pnpm publicar`; deu problema, volta a
    versão anterior.
-9. **O servidor se cuida:** atualização automática, entrada só por chave (conferida pelo `sshd -T`), o fail2ban e o
-   backup do banco todo dia.
+9. **O servidor se cuida:** atualização automática, entrada só por chave (conferida pelo `sshd -T`), o fail2ban, o
+   backup do banco e das fotos todo dia, e o root só roda os scripts instalados em `/usr/local/lib/<projeto>/`.
 10. **As bibliotecas são vigiadas:** o Dependabot pede a atualização, e ela passa pelo portão.
+
+Nos detalhes: as páginas saem com os cabeçalhos de segurança (o `apps/web/server/middleware/seguranca.ts`); as privadas (o painel, a entrada e
+o pedido, no `app/utils/privadas.ts`) não ficam guardadas, não passam o endereço adiante e ficam fora do Google; o
+`/api/docs` fica fechado no ar (abre só com `DOCS_NO_AR=true` no `.env`); a frente não consegue ler o `.env` da API;
+e, com o login ligado, as rotas que mudam dado conferem a origem (o `/ligar-login`).
 
 ## Fica para depois
 

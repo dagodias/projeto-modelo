@@ -1,5 +1,6 @@
 import tailwindcss from '@tailwindcss/vite'
 
+// Os cabeçalhos de segurança das páginas (e os das privadas) moram no server/middleware/seguranca.ts.
 export default defineNuxtConfig({
   compatibilityDate: '2026-11-01',
   devtools: { enabled: false },

@@ -7,6 +7,10 @@ on:
     branches: [main]
   pull_request:
 
+# O portão só lê o código: nenhuma etapa dele escreve no repositório.
+permissions:
+  contents: read
+
 jobs:
   conferir:
     runs-on: ubuntu-latest

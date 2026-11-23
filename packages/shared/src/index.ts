@@ -4,12 +4,20 @@
  */
 import { z } from 'zod'
 
-/** Um dia de funcionamento. dia: 0 é domingo, 6 é sábado. Horas no formato HH:MM, na hora de Brasília. */
-export const HorarioSchema = z.object({
-  dia: z.number().int().min(0).max(6),
-  abre: z.string().regex(/^\d{2}:\d{2}$/),
-  fecha: z.string().regex(/^\d{2}:\d{2}$/),
-})
+/** Uma hora do dia, de 00:00 a 23:59. */
+const Hora = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/)
+
+/**
+ * Um dia de funcionamento. dia: 0 é domingo, 6 é sábado. Horas de 00:00 a 23:59, na hora de Brasília.
+ * Abre e fecha diferentes (iguais deixariam o negócio aberto o dia todo sem querer); fechar antes de abrir passa da
+ * meia-noite (das 18:00 às 02:00).
+ */
+export const HorarioSchema = z
+  .object({ dia: z.number().int().min(0).max(6), abre: Hora, fecha: Hora })
+  .refine((horario) => horario.abre !== horario.fecha, {
+    message: 'O horário de abrir e o de fechar não podem ser iguais.',
+    path: ['fecha'],
+  })
 
 export const ProdutoSchema = z.object({
   id: z.string().min(1),
@@ -17,7 +25,14 @@ export const ProdutoSchema = z.object({
   descricao: z.string(),
   /** Dinheiro sempre em centavos, número inteiro: R$ 22,00 é 2200. */
   precoCentavos: z.number().int().nonnegative(),
-  foto: z.string().nullable(),
+  /**
+   * A foto mora no próprio site (/fotos/<arquivo>), nunca num endereço de fora; sem foto, null. Cada parte do caminho
+   * começa por letra ou número: nada de "..", nem arquivo escondido.
+   */
+  foto: z
+    .string()
+    .regex(/^\/fotos(\/[A-Za-z0-9][\w.-]*)+$/)
+    .nullable(),
   disponivel: z.boolean(),
 })
 

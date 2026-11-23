@@ -93,11 +93,11 @@
                           },
                           "abre": {
                             "type": "string",
-                            "pattern": "^\\d{2}:\\d{2}$"
+                            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
                           },
                           "fecha": {
                             "type": "string",
-                            "pattern": "^\\d{2}:\\d{2}$"
+                            "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$"
                           }
                         },
                         "required": [
@@ -131,7 +131,8 @@
                           },
                           "foto": {
                             "nullable": true,
-                            "type": "string"
+                            "type": "string",
+                            "pattern": "^\\/fotos(\\/[A-Za-z0-9][\\w.-]*)+$"
                           },
                           "disponivel": {
                             "type": "boolean"

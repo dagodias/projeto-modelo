@@ -9,14 +9,14 @@
   "scripts": {
     "dev": "pnpm -r --parallel --stream run dev",
     "build": "pnpm -r run build",
-    "test": "pnpm -r run test",
+    "test": "pnpm -r run test && node --test infra/*.test.mjs",
     "e2e": "pnpm build && playwright test",
     "contrato": "pnpm --filter @projeto/api openapi && pnpm --filter @projeto/web tipos:api",
     "typecheck": "pnpm contrato && pnpm -r run typecheck && tsc -p tsconfig.json",
     "lint": "eslint .",
     "format": "prettier --write .",
     "segredos": "secretlint \"**/*\"",
-    "publicar": "bash infra/publicar.sh",
+    "publicar": "node infra/publicar.mjs",
     "prepare": "husky"
   },
   "devDependencies": {

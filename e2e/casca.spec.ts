@@ -113,6 +113,29 @@ test('o guia de estilo fica fora do Google e fora do menu', async ({ page }) => 
   )
 })
 
+test('as páginas saem com os cabeçalhos de segurança', async ({ request }) => {
+  const cabecalhos = (await request.get('/')).headers()
+  expect(cabecalhos['x-content-type-options']).toBe('nosniff')
+  expect(cabecalhos['x-frame-options']).toBe('DENY')
+  expect(cabecalhos['referrer-policy']).toBe('strict-origin-when-cross-origin')
+  expect(cabecalhos['permissions-policy']).toContain('camera=()')
+  // Os testes de tela rodam o build de produção: o HSTS vai junto (no pnpm dev, não).
+  expect(cabecalhos['strict-transport-security']).toContain('max-age=')
+})
+
+test('as páginas do dono e do pedido não ficam guardadas, nem passam o endereço, nem vão ao Google', async ({
+  request,
+}) => {
+  // Elas nascem nas aulas; os cabeçalhos já valem para o caminho, antes de a página existir (até no 404).
+  for (const caminho of ['/painel', '/painel/pedidos', '/entrar', '/pedido/abc123']) {
+    const cabecalhos = (await request.get(caminho, { headers: { accept: 'text/html' } })).headers()
+    expect(cabecalhos['cache-control'], caminho).toBe('no-store')
+    expect(cabecalhos['referrer-policy'], caminho).toBe('no-referrer')
+    expect(cabecalhos['x-robots-tag'], caminho).toContain('noindex')
+    expect(cabecalhos['x-content-type-options'], caminho).toBe('nosniff')
+  }
+})
+
 test('a prévia do link e os ícones estão no lugar', async ({ page, request }) => {
   await page.goto('/')
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /previa\.png$/)

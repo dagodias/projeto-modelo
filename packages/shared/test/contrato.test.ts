@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { formatarPreco, NegocioSchema, ProdutoSchema, RedeSchema } from '../src/index.js'
+import {
+  formatarPreco,
+  HorarioSchema,
+  NegocioSchema,
+  ProdutoSchema,
+  RedeSchema,
+} from '../src/index.js'
 
 const negocio = {
   nome: 'Meu Negócio',
@@ -52,5 +58,35 @@ describe('o contrato', () => {
       true,
     )
     expect(NegocioSchema.safeParse({ ...negocio, email: 'contato' }).success).toBe(false)
+  })
+
+  it('a hora vai de 00:00 a 23:59', () => {
+    const horario = (abre: string, fecha: string) =>
+      HorarioSchema.safeParse({ dia: 1, abre, fecha }).success
+    expect(horario('00:00', '23:59')).toBe(true)
+    expect(horario('18:00', '02:00')).toBe(true)
+    for (const errada of ['24:00', '99:99', '9:00', '12:60'])
+      expect(horario(errada, '18:00'), errada).toBe(false)
+  })
+
+  it('abrir e fechar na mesma hora não vale (deixaria o negócio aberto o dia todo)', () => {
+    expect(HorarioSchema.safeParse({ dia: 1, abre: '09:00', fecha: '09:00' }).success).toBe(false)
+  })
+
+  it('a foto mora no próprio site, em /fotos, ou não existe', () => {
+    const produto = { id: 'x', nome: 'X', descricao: '', precoCentavos: 100, disponivel: true }
+    const aceita = (foto: string | null) => ProdutoSchema.safeParse({ ...produto, foto }).success
+    expect(aceita(null)).toBe(true)
+    expect(aceita('/fotos/produto-1.webp')).toBe(true)
+    expect(aceita('/fotos/2026/11/bolo.jpg')).toBe(true)
+    for (const errada of [
+      'https://outro.site/x.jpg',
+      '/fotos/../.env',
+      '/fotos/.escondida',
+      '/outra/x.webp',
+      '/fotos/',
+    ]) {
+      expect(aceita(errada), errada).toBe(false)
+    }
   })
 })

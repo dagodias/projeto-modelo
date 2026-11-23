@@ -1,0 +1,9 @@
+# Fim de linha LF em todo arquivo de texto, até no Windows: o .sh (e a configuração) com CRLF quebra no servidor.
+* text=auto eol=lf
+
+# As imagens e as fontes passam como estão.
+*.png binary
+*.ico binary
+*.jpg binary
+*.webp binary
+*.woff2 binary

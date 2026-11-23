@@ -78,7 +78,7 @@ const link =
         class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-6 text-xs text-stone-500 sm:flex-row sm:justify-between sm:px-6 dark:text-stone-400"
       >
         <p>© {{ ano }} {{ negocio?.nome }}</p>
-        <p>Este site não usa cookies nem rastreadores.</p>
+        <p>Este site não usa rastreadores.</p>
       </div>
     </div>
   </footer>

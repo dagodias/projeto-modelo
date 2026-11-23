@@ -97,9 +97,9 @@ const icone =
       </div>
 
       <p class="mt-10 max-w-2xl text-sm text-stone-500 dark:text-stone-400">
-        Este site não tem formulário: nenhum dado seu fica guardado aqui.
+        Como cuidamos dos seus dados:
         <NuxtLink to="/privacidade" class="font-medium underline underline-offset-4"
-          >Veja a privacidade</NuxtLink
+          >veja a privacidade</NuxtLink
         >.
       </p>
     </BaseSecao>

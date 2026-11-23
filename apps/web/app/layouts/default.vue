@@ -7,6 +7,10 @@ const { data: negocio } = await useNegocio()
 const { enderecoDoSite } = useAppConfig()
 const route = useRoute()
 const endereco = enderecoDoSite.replace(/\/+$/, '')
+// A página privada (o painel, a entrada, o pedido com o código secreto) não ganha endereço oficial nem og:url.
+const enderecoDaPagina = computed(() =>
+  endereco && !ehPaginaPrivada(route.path) ? endereco + route.path : undefined,
+)
 
 // O título de cada página ganha o nome do negócio no fim: "Contato · Meu Negócio".
 useHead({
@@ -15,7 +19,9 @@ useHead({
     if (!nome) return titulo ?? ''
     return titulo && titulo !== nome ? `${titulo} · ${nome}` : nome
   },
-  link: computed(() => (endereco ? [{ rel: 'canonical', href: endereco + route.path }] : [])),
+  link: computed(() =>
+    enderecoDaPagina.value ? [{ rel: 'canonical', href: enderecoDaPagina.value }] : [],
+  ),
 })
 
 // A prévia do link (WhatsApp, Facebook): o nome, a imagem e o endereço. O título e a descrição vêm de cada página.
@@ -26,7 +32,7 @@ useSeoMeta({
   ogImage: endereco ? `${endereco}/previa.png` : '/previa.png',
   ogImageWidth: 1200,
   ogImageHeight: 630,
-  ogUrl: () => (endereco ? endereco + route.path : undefined),
+  ogUrl: () => enderecoDaPagina.value,
   twitterCard: 'summary_large_image',
 })
 </script>
