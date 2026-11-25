@@ -1,7 +1,10 @@
 # Projeto
 
-Este projeto nasceu do projeto-modelo do padrão Dagoberto: a frente (Nuxt) e a API (Fastify) separadas, TypeScript
-nos dois lados. O DOCUMENTACAO-DAGOBERTO.md troca este parágrafo pelo que o projeto é, em duas linhas.
+O site de um negócio, que cresce até virar o sistema de pedidos dele: o cliente vê os produtos, faz o pedido pelo
+site e acompanha pelo número; o dono cuida de tudo num painel com senha. O nome e os dados do negócio estão em
+`apps/api/src/config/negocio.ts`; o que falta, na ordem, no `docs/pendente.md`. O projeto nasceu do kit do curso (o
+padrão Dagoberto: a frente em Nuxt e a API em Fastify, TypeScript nos dois lados) com esta memória pronta: ela não se
+cria de novo, só se mantém em dia.
 
 ## Onde mora cada coisa
 

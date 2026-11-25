@@ -2,9 +2,10 @@
 
 ## 0. Estado
 
-- O projeto nasceu do projeto-modelo do padrão Dagoberto: a frente, a API e o contrato funcionando, com o portão
-  ligado. O banco e o login ainda não estão ligados (eles se ligam quando o projeto precisar; veja abaixo).
-- O ARQUITETURA-DAGOBERTO.md acrescenta aqui a data e as decisões do projeto.
+- O projeto nasceu do kit do curso (o projeto-modelo do padrão Dagoberto) com a documentação pronta: a frente, a API e
+  o contrato funcionando, com o portão ligado. O banco e o login ainda não estão ligados (eles se ligam quando o
+  projeto precisar; veja abaixo).
+- Decisão nova do projeto entra aqui, com a data, no imposto do fim do trabalho que a tomou.
 
 ## O padrão
 
@@ -139,4 +140,4 @@ e, com o login ligado, as rotas que mudam dado conferem a origem (o `/ligar-logi
 
 ## Fica para depois
 
-- (O ARQUITETURA-DAGOBERTO.md preenche com o que o projeto deixou para depois.)
+O que falta construir, na ordem, mora no `docs/pendente.md`.
