@@ -61,3 +61,8 @@ estilo de um modelo pronto? Coloque o modelo em `docs/estilo/` e peça com o `/t
 Abra a pasta no Claude Code: ela lê o `CLAUDE.md` sozinha. Na primeira conversa, ela pergunta se pode usar o servidor
 do Nuxt (do `.mcp.json`): é a documentação oficial do Nuxt, só de leitura. Os comandos do projeto:
 `/nova-funcionalidade`, `/imposto`, `/revisar`, `/ligar-banco`, `/ligar-login`, `/publicar` e `/trocar-estilo`.
+
+## Licença
+
+MIT (o arquivo `LICENSE`): você pode usar, mudar e vender o sistema que construir com este projeto, desde que mantenha o
+aviso de autoria do `LICENSE` no código.
